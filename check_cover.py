@@ -1,7 +1,11 @@
+# https://github.com/badprog/badprog-grcov-demo
+
+# import
 import subprocess
 import os
 import shutil
 
+# const var
 PROJECT_NAME = "p1-arg-verifier"
 REPORT_FORMAT = "html"
 REPORT_DIR = f"target/coverage/{PROJECT_NAME}"
