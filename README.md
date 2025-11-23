@@ -2,7 +2,9 @@
 
 Full tutorial and explanation: https://www.badprog.com/rust-crate-grcov-demo
 
-To simply run the project, do the following command:
+First, rebuild and reopen your project with devcontainer.
+
+Then simply run the project with the following command:
 
 ```bash
 python check_cover.py
