@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "p1-arg-verifier"
+]
+
+resolver = "2"
