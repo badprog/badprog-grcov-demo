@@ -1,0 +1,29 @@
+// .devcontainer/devcontainer.json
+{
+  //
+  "name": "Badprog Rust",
+  //
+  "remoteEnv": {
+    "RUSTFLAGS": "-Cinstrument-coverage",
+    "LLVM_PROFILE_FILE": "${containerWorkspaceFolder}/coverage-files/cargo-test-%p-%m.profraw"
+  },
+  //
+  "build": {
+    "dockerfile": "Dockerfile.dev"
+  },
+  //
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+  //
+  "remoteUser": "vscode",
+  //
+  "postCreateCommand": "cargo clippy --workspace -- -D warnings"
+}

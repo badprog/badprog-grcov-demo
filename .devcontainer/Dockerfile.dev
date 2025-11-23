@@ -1,0 +1,53 @@
+# .devcontainer/Dockerfile.dev
+
+# Recent Rust image
+FROM rust:1.91.1
+
+# Code covering
+RUN rustup component add llvm-tools-preview clippy rustfmt
+# Report generation tool for code covering, --locked takes only dependencies
+# from the Cargo.lock file, so the last dependencies
+RUN cargo install grcov --locked
+
+# Non interactive prompt
+ENV DEBIAN_FRONTEND=noninteractive
+
+#
+ARG PYTHON_VERSION=python3.13
+
+# Essential dependencies for Rust, Python and build environment
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    git \
+    libssl-dev \
+    pkg-config \
+    tree \
+    wget \
+    ${PYTHON_VERSION} \
+    ${PYTHON_VERSION}-venv \
+    python3-pip \
+    # Cleaning
+    && rm -rf /var/lib/apt/lists/*
+
+
+# python as python3
+RUN update-alternatives --install /usr/bin/python python /usr/bin/${PYTHON_VERSION} 1
+
+# Default user (security, as usual 'vscode' and not root)
+ARG USERNAME=vscode
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME
+
+# Make the environment available for the non root user
+# RUN chown -R $USERNAME:$USERNAME /usr/local/share
+RUN chown -R $USERNAME:$USERNAME /usr/local/cargo
+
+USER $USERNAME
+
+# Workspace dir
+WORKDIR /workspace
+
+CMD [ "/bin/bash" ]
